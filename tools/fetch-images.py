@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+"""Download the stock photos for the site from Pexels and crop them to their slots.
+
+Every photo here is from Pexels, under the Pexels License: free for commercial use,
+no attribution required. Run from the repo root on a machine that can reach
+images.pexels.com:
+
+    pip install pillow
+    python3 tools/fetch-images.py
+
+Then LOOK at every file in images/ before publishing. Blur or re-crop anything
+that shows a brand logo, a licence plate or another business's sign, and log
+the edit in images/IMAGE-SOURCES.md.
+"""
+import io
+import pathlib
+import urllib.request
+
+from PIL import Image
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+OUT = ROOT / "images"
+SRC = OUT / "_src"  # originals, git-ignored
+
+# slot file, Pexels photo id, output size, vertical focus (0 top, 0.5 centre, 1 bottom)
+SLOTS = [
+    ("vap-auto-repairs-etobicoke-hero.webp", 11139242, (1200, 1500), 0.5),
+    ("vap-auto-repairs-etobicoke-og.webp", 11139242, (1200, 630), 0.45),
+    ("oil-change-etobicoke.webp", 13065690, (900, 1125), 0.5),
+    ("tire-change-etobicoke.webp", 3806249, (1200, 800), 0.55),
+    ("mechanic-with-customer-etobicoke.webp", 7541976, (1200, 900), 0.4),
+]
+
+
+def fetch(photo_id):
+    SRC.mkdir(parents=True, exist_ok=True)
+    cached = SRC / f"pexels-{photo_id}.jpg"
+    if not cached.exists():
+        url = f"https://images.pexels.com/photos/{photo_id}/pexels-photo-{photo_id}.jpeg?auto=compress&cs=tinysrgb&w=2400"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            cached.write_bytes(r.read())
+    return Image.open(io.BytesIO(cached.read_bytes())).convert("RGB")
+
+
+def cover(img, size, focus_y):
+    tw, th = size
+    scale = max(tw / img.width, th / img.height)
+    img = img.resize((round(img.width * scale), round(img.height * scale)), Image.LANCZOS)
+    left = (img.width - tw) // 2
+    top = round((img.height - th) * focus_y)
+    return img.crop((left, top, left + tw, top + th))
+
+
+def main():
+    for name, photo_id, size, focus_y in SLOTS:
+        out = cover(fetch(photo_id), size, focus_y)
+        # A fresh image carries no EXIF or other metadata.
+        out.save(OUT / name, "WEBP", quality=80, method=6)
+        print(f"{name}: Pexels {photo_id}, {size[0]}x{size[1]}")
+
+
+if __name__ == "__main__":
+    main()
