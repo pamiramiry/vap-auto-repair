@@ -336,8 +336,9 @@ strong { font-weight: 600; }
   .reviews__more { text-align: center; }
 }
 @media (max-width: 899px) {
+  .note { max-width: none; }
   .note:nth-child(odd) { transform: rotate(-1deg); }
-  .note:nth-child(even) { transform: rotate(1deg); justify-self: end; }
+  .note:nth-child(even) { transform: rotate(1deg); }
 }
 
 /* ---------- about: the letter on a sheet ---------- */
