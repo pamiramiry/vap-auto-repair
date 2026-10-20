@@ -24,11 +24,11 @@ SRC = OUT / "_src"  # originals, git-ignored
 
 # slot file, Pexels photo id, output size, vertical focus (0 top, 0.5 centre, 1 bottom)
 SLOTS = [
-    ("vap-auto-repairs-etobicoke-hero.webp", 11139242, (1200, 1500), 0.5),
-    ("vap-auto-repairs-etobicoke-og.webp", 11139242, (1200, 630), 0.45),
     ("oil-change-etobicoke.webp", 13065690, (900, 1125), 0.5),
     ("tire-change-etobicoke.webp", 3806249, (1200, 800), 0.55),
-    ("mechanic-with-customer-etobicoke.webp", 7541976, (1200, 900), 0.4),
+    ("mechanic-under-car-etobicoke.webp", 11139242, (900, 1200), 0.5),
+    ("mechanic-with-customer-etobicoke.webp", 7541976, (800, 800), 0.4),
+    ("vap-auto-repairs-etobicoke-og.webp", 11139242, (1200, 630), 0.45),
 ]
 
 

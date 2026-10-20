@@ -2,71 +2,87 @@
 (function () {
   "use strict";
 
-  var doc = document.documentElement;
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var PHONE = "(647) 710-0734";
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- header shadow on scroll ---------- */
-  var header = document.querySelector(".site-header");
-  if (header) {
-    var ticking = false;
-    var onScroll = function () {
-      header.classList.toggle("is-scrolled", window.scrollY > 8);
-      ticking = false;
-    };
-    window.addEventListener("scroll", function () {
-      if (!ticking) { ticking = true; window.requestAnimationFrame(onScroll); }
-    }, { passive: true });
-    onScroll();
-  }
-
-  /* ---------- mobile menu ---------- */
-  var toggle = document.querySelector(".nav-toggle");
-  var nav = document.getElementById("site-nav");
-  if (toggle && nav && header) {
-    var setOpen = function (open) {
-      if (open) doc.style.setProperty("--nav-top", header.getBoundingClientRect().bottom + "px");
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-      nav.classList.toggle("is-open", open);
-      document.body.classList.toggle("nav-open", open);
-    };
-    toggle.addEventListener("click", function () {
-      setOpen(toggle.getAttribute("aria-expanded") !== "true");
-    });
-    nav.addEventListener("click", function (e) {
-      if (e.target.closest("a")) setOpen(false);
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
-        setOpen(false);
-        toggle.focus();
+  /* ---------- the work order: tap a concern and the order fills in ---------- */
+  var order = document.querySelector("[data-order]");
+  if (order) {
+    var out = order.querySelector("[data-concern-out]");
+    var issue = document.getElementById("q-issue");
+    order.addEventListener("change", function (e) {
+      if (e.target.name !== "concern") return;
+      var label = e.target.nextElementSibling.textContent;
+      out.textContent = label;
+      out.classList.remove("is-filled");
+      void out.offsetWidth; // restart the ink animation
+      out.classList.add("is-filled");
+      if (issue && (!issue.value || issue.dataset.fromOrder === "true")) {
+        issue.value = label + ". ";
+        issue.dataset.fromOrder = "true";
       }
     });
-    window.matchMedia("(min-width: 960px)").addEventListener("change", function (m) {
-      if (m.matches) setOpen(false);
-    });
+    if (issue) issue.addEventListener("input", function () { issue.dataset.fromOrder = "false"; });
   }
 
-  /* ---------- reveal on scroll ---------- */
-  var revealEls = document.querySelectorAll(".reveal");
-  if (!reduceMotion && "IntersectionObserver" in window && revealEls.length) {
-    doc.classList.add("js-reveal");
-    var revealObs = new IntersectionObserver(function (entries) {
+  /* ---------- section entrances: parts arrive in reading order, once ---------- */
+  var revealEls = document.querySelectorAll(".reveal, .reveal-pic, .reveal-slip, .reveal-note");
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          revealObs.unobserve(entry.target);
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        var group = el.closest(".reveal-group, .slips");
+        if (group) {
+          var siblings = Array.prototype.filter.call(group.querySelectorAll(".reveal, .reveal-note"), function (n) {
+            return n.closest(".reveal-group, .slips") === group;
+          });
+          el.style.transitionDelay = Math.min(siblings.indexOf(el), 6) * 80 + "ms";
         }
+        el.classList.add("is-in");
+        obs.unobserve(el);
       });
-    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.06 });
-    revealEls.forEach(function (el) { revealObs.observe(el); });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
+    var picObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        proxies.get(entry.target).classList.add("is-in");
+        picObs.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -10% 0px" });
+    // A picture clipped shut has no visible area, so watch its frame instead and open it from there.
+    var proxies = new Map();
+    revealEls.forEach(function (el) {
+      if (!el.classList.contains("reveal-pic")) { obs.observe(el); return; }
+      var probe = document.createElement("span");
+      probe.className = "pic__probe";
+      probe.setAttribute("aria-hidden", "true");
+      el.parentNode.insertBefore(probe, el);
+      proxies.set(probe, el);
+      picObs.observe(probe);
+    });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add("is-in"); });
   }
 
-  /* ---------- image slots: show the designed fallback until real photos are in images/ ---------- */
-  document.querySelectorAll(".frame img").forEach(function (img) {
-    var frame = img.closest(".frame");
-    var miss = function () { frame.classList.add("is-missing"); };
+  /* ---------- fit the giant word exactly to its column ---------- */
+  var giant = document.querySelector(".giant span");
+  if (giant) {
+    var fit = function () {
+      giant.style.fontSize = "";
+      var col = giant.parentElement.clientWidth;
+      var w = giant.scrollWidth;
+      if (col && w) giant.style.fontSize = (parseFloat(getComputedStyle(giant).fontSize) * col / w) + "px";
+    };
+    giant.style.display = "inline-block";
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit); else fit();
+    window.addEventListener("resize", fit);
+  }
+
+  /* ---------- pictures: keep the shop drawing when a photo file is missing ---------- */
+  document.querySelectorAll(".pic img").forEach(function (img) {
+    var pic = img.closest(".pic");
+    var miss = function () { pic.classList.add("is-missing"); };
     if (img.complete && img.naturalWidth === 0) miss();
     img.addEventListener("error", miss);
   });
@@ -89,16 +105,14 @@
   var describe = function (now) {
     var today = HOURS[now.day];
     if (today && now.mins >= today[0] * 60 && now.mins < today[1] * 60) {
-      return { open: true, text: "Open now · until " + fmt(today[1]) + " today" };
+      return { open: true, text: "Open now, until " + fmt(today[1]) };
     }
     if (today && now.mins < today[0] * 60) {
-      return { open: false, text: "Closed now · opens " + fmt(today[0]) + " today" };
+      return { open: false, text: "Closed, opens " + fmt(today[0]) + " today" };
     }
     for (var i = 1; i <= 7; i++) {
       var d = (now.day + i) % 7;
-      if (HOURS[d]) {
-        return { open: false, text: "Closed now · opens " + (i === 1 ? "tomorrow" : DAYS[d]) + " at " + fmt(HOURS[d][0]) };
-      }
+      if (HOURS[d]) return { open: false, text: "Closed, opens " + (i === 1 ? "tomorrow" : DAYS[d]) + " at " + fmt(HOURS[d][0]) };
     }
     return { open: false, text: "" };
   };
@@ -113,17 +127,11 @@
         var t = el.querySelector(".status__text");
         if (t) t.textContent = s.text;
       });
-      var sub = document.querySelector(".float-card--status .float-card__sub");
-      if (sub) {
-        sub.textContent = s.open
-          ? "Call now and we'll tell you when to bring it in."
-          : "Send a quote request and we'll call you first thing.";
-      }
-      var row = document.querySelector('.hours tr[data-day="' + now.day + '"]');
-      if (row && !row.classList.contains("is-today")) {
-        row.classList.add("is-today");
-        row.querySelector("th").insertAdjacentHTML("beforeend", ' <span class="visually-hidden">(today)</span>');
-      }
+      document.querySelectorAll(".hours tr[data-days]").forEach(function (row) {
+        var r = row.getAttribute("data-days").split("-").map(Number);
+        var hit = r.length === 2 ? now.day >= r[0] && now.day <= r[1] : now.day === r[0];
+        row.classList.toggle("is-today", hit);
+      });
     } catch (err) { /* the static hours still read fine */ }
   };
   paintStatus();
@@ -149,9 +157,9 @@
   /* ---------- quote form ---------- */
   var form = document.getElementById("quote");
   if (form) {
-    var status = form.querySelector(".quote-form__status");
+    var status = form.querySelector(".reply-card__status");
     var button = form.querySelector('button[type="submit"]');
-    var say = function (kind, msg) { status.className = "quote-form__status is-" + kind; status.textContent = msg; };
+    var say = function (kind, msg) { status.className = "reply-card__status is-" + kind; status.textContent = msg; };
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -162,7 +170,7 @@
         if (!ok && !firstBad) firstBad = field;
       });
       if (firstBad) {
-        say("error", "Please fill in the highlighted fields so we can get back to you.");
+        say("error", "Please fill in the highlighted fields so we can call you back.");
         firstBad.focus();
         return;
       }
@@ -178,13 +186,11 @@
       fetch(endpoint, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } })
         .then(function (res) {
           if (!res.ok) throw new Error("bad status");
-          say("success", "Thanks, we've got it. We'll be in touch during shop hours. Need it sooner? Call " + PHONE + ".");
+          say("success", "Thanks, we've got it. We'll call you during shop hours. Need it sooner? Call " + PHONE + ".");
           form.reset();
           form.querySelectorAll("[aria-invalid]").forEach(function (f) { f.removeAttribute("aria-invalid"); });
         })
-        .catch(function () {
-          say("error", "That didn't go through. Please call " + PHONE + " instead.");
-        })
+        .catch(function () { say("error", "That didn't go through. Please call " + PHONE + " instead."); })
         .then(function () { button.disabled = false; });
     });
   }

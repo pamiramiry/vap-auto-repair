@@ -8,3 +8,4 @@ Plain HTML, CSS and JS. No build step. Open `index.html` in a browser, or deploy
 - `TO-CONFIRM.md`: facts to check with the shop before launch.
 - `images/IMAGE-SOURCES.md`: licence record for every photo.
 - `tools/fetch-images.py`: downloads and crops the Pexels photos into `images/`.
+- `.claude/skills/`: the design skills used to build it (taste-skill, MIT; Impeccable, Apache 2.0; Emil Kowalski's emil-design-eng, MIT). Each keeps its own LICENSE file.
