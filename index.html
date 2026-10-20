@@ -57,6 +57,55 @@
   "areaServed": ["Etobicoke", "Rexdale", "Thistletown", "Smithfield", "Mount Olive", "Jamestown", "Humberwood", "Kipling Heights"]
 }
 </script>
+<!-- FAQPage data mirrors the FAQ section. Edit both together. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Will I know the price before you start?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. We find the problem, then we call you with what it is and what it costs. Nothing gets done until you say yes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need an appointment?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We recommend it. Booking ahead means your car goes straight into a bay instead of waiting in the lot."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When should I book winter tires?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Early. The first snowfall sends everyone to the shop in the same week. Book in October or early November and you skip the rush."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "My check engine light is on. Can I drive?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If it's flashing, or the car runs rough, park it and call us. If it's steady and the car drives normally, it's usually fine to bring in, but don't leave it for weeks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will you sell me repairs I don't need?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. We tell you what needs doing now and what can wait, and you decide."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -108,7 +157,7 @@
 <section class="hero" aria-labelledby="hero-title">
   <article class="order" data-order>
     <h1 id="hero-title" class="order__title"><span class="line">Auto repair</span> <span class="line">in Etobicoke</span></h1>
-    <p class="order__lead">Four bays on Albion Rd. You hear the price before any work starts.</p>
+    <p class="order__lead">Four service bays on Albion Rd in North Etobicoke. You hear the price before any work starts.</p>
 
     <fieldset class="order__concern">
       <legend>What's the car doing? <span>Tap one</span></legend>
@@ -140,8 +189,8 @@
 <!-- ============ INTRO: title, note, facts ============ -->
 <section class="intro" aria-labelledby="intro-title">
   <div class="intro__row reveal-group">
-    <h2 id="intro-title" class="reveal">No surprise bills</h2>
-    <p class="intro__note reveal">People rarely leave a mechanic over price. They leave over surprises. Here we find the problem, call you with what it costs, and start when you say yes.</p>
+    <h2 id="intro-title" class="reveal">Etobicoke auto repair</h2>
+    <p class="intro__note reveal">VAP Auto Repairs is an independent auto repair shop in Etobicoke with no surprise bills. People rarely leave a mechanic over price. They leave over surprises. Here we find the problem, call you with what it costs, and start when you say yes.</p>
   </div>
   <ul class="facts reveal-group">
     <li class="reveal"><span class="facts__big">Since 2007</span><span class="facts__say">Regulars bought their first cars here</span></li>
@@ -154,8 +203,9 @@
 <!-- ============ SERVICES: giant word, filled bars ============ -->
 <section class="services" id="services" aria-labelledby="services-title">
   <div class="services__col">
-    <h2 id="services-title" class="giant reveal"><span>Repairs</span></h2>
-    <p class="services__intro reveal">Everyday maintenance and repair for most makes, cars to minivans. Tap a row to see what's in it.</p>
+    <p class="giant reveal" aria-hidden="true"><span>Repairs</span></p>
+    <h2 id="services-title" class="services__title reveal">Auto repair services in Etobicoke</h2>
+    <p class="services__intro reveal">Oil changes, brakes, tires, diagnostics and everyday repairs for most makes, cars to minivans. Tap a row to see what's in it.</p>
     <div class="bars reveal-group">
       <details class="reveal" open>
         <summary>Oil changes and maintenance</summary>
@@ -208,7 +258,7 @@
 
   <div class="services__pics">
     <figure class="pic pic--tall reveal-pic">
-      <img src="images/oil-change-etobicoke.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Mechanic pouring fresh engine oil into a car during an oil change">
+      <img src="images/oil-change-etobicoke.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Mechanic pouring fresh engine oil into a car during an oil change at an Etobicoke auto repair shop">
       <svg class="pic__draw" aria-hidden="true"><use href="#d-bays"/></svg>
     </figure>
     <figure class="pic pic--wide reveal-pic">
@@ -221,7 +271,7 @@
 <!-- ============ HOW: the itinerary slip ============ -->
 <section class="how" id="how" aria-labelledby="how-title">
   <div class="how__copy reveal-group">
-    <h2 id="how-title" class="reveal">How a repair goes</h2>
+    <h2 id="how-title" class="reveal">How repairs work</h2>
     <p class="reveal">The same order every time, so you always know where your car is and what it will cost.</p>
     <a class="btn btn--accent reveal" href="tel:+16477100734"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>Start with a call</a>
   </div>
@@ -248,7 +298,7 @@
 <!-- ============ REVIEWS: paper slips ============ -->
 <section class="reviews" id="reviews" aria-labelledby="reviews-title">
   <div class="reviews__head reveal-group">
-    <h2 id="reviews-title" class="reveal">In their words</h2>
+    <h2 id="reviews-title" class="reveal">Etobicoke drivers say</h2>
     <p class="reveal">From 171 Google reviews. Copied as written.</p>
   </div>
   <ul class="slips">
@@ -283,7 +333,7 @@
 <!-- ============ ABOUT: the letter ============ -->
 <section class="about" id="about" aria-labelledby="about-title">
   <div class="sheet reveal-group">
-    <h2 id="about-title" class="reveal">A note from the shop</h2>
+    <h2 id="about-title" class="reveal">Etobicoke mechanic</h2>
     <div class="sheet__body">
       <p class="reveal">Some of the people who come to us bought their first car in 2007 and brought it here. They still come. Now their families do too.</p>
       <p class="reveal">It usually starts with one oil change. Then the second car comes in for brakes. Then a son or daughter gets their first car, and it comes here as well. One customer put it simply: <mark>"all my family car go for oil change, tyre rotation and brake works."</mark></p>
@@ -301,7 +351,7 @@
 <!-- ============ FAQ beside photographs ============ -->
 <section class="faq" id="faq" aria-labelledby="faq-title">
   <div class="faq__col reveal-group">
-    <h2 id="faq-title" class="reveal">Before you call</h2>
+    <h2 id="faq-title" class="reveal">Auto repair questions</h2>
     <ul class="faq__facts reveal">
       <li>1770 Albion Rd, Unit 33, in the Shops at Albion plaza</li>
       <li>Monday to Friday 9 to 7, Saturday 9 to 5</li>
@@ -358,7 +408,7 @@
     </svg>
   </div>
   <div class="visit-card">
-    <h2 id="visit-title">Find the shop</h2>
+    <h2 id="visit-title">Visit us on Albion Rd</h2>
     <p class="visit-card__addr">1770 Albion Rd, Unit 33<br>Etobicoke, ON M9V 1C2</p>
     <table class="hours">
       <caption class="visually-hidden">Opening hours</caption>
@@ -369,6 +419,7 @@
       </tbody>
     </table>
     <p class="visit-card__status status" data-status><span class="status__dot" aria-hidden="true"></span><span class="status__text"></span></p>
+    <p class="visit-card__areas">Serving Etobicoke, Rexdale, Thistletown, Smithfield, Mount Olive, Jamestown, Humberwood and Kipling Heights.</p>
     <p class="visit-card__links"><a href="tel:+16477100734">(647) 710-0734</a><a href="https://www.google.com/maps/dir/?api=1&amp;destination=1770+Albion+Rd+Unit+33+Etobicoke+ON+M9V+1C2" target="_blank" rel="noopener">Directions</a></p>
     <a class="btn btn--accent btn--bar" href="tel:+16477100734"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>Book a time</a>
   </div>
@@ -383,7 +434,7 @@
   <p class="reply__aside reveal">A squeal today is brake pads. Left for a month, it's pads and rotors. Send the details now and we'll call you back during shop hours.</p>
   <!-- Form endpoint: paste a Formspree, Web3Forms or similar URL into data-endpoint to switch it on. -->
   <form class="reply-card" id="quote" data-endpoint="" novalidate>
-    <h2 id="quote-title">Get a free quote</h2>
+    <h2 id="quote-title">Free auto repair quote</h2>
     <p class="reply-card__sub">We reply with a likely cause, a price range and a time to bring it in.</p>
     <div class="field-row">
       <div class="field"><label for="q-name">Name</label><input id="q-name" name="name" type="text" autocomplete="name" required></div>
@@ -401,7 +452,7 @@
   <div class="back">
     <div class="back__msg">
       <p class="back__sign">Drive safe.</p>
-      <p>Honest auto repair in Etobicoke. You hear the price before any work starts, and nothing gets done until you say yes.</p>
+      <p>Honest auto repair in Etobicoke, serving Rexdale, Thistletown, Smithfield, Mount Olive and North Etobicoke. You hear the price before any work starts, and nothing gets done until you say yes.</p>
     </div>
     <div class="back__addr">
       <svg class="back__stamp" viewBox="0 0 400 300" aria-hidden="true"><use href="#d-bays"/></svg>
