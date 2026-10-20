@@ -16,7 +16,7 @@ import io
 import pathlib
 import urllib.request
 
-from PIL import Image
+from PIL import Image, ImageFilter
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "images"
@@ -30,6 +30,13 @@ SLOTS = [
     ("mechanic-with-customer-etobicoke.webp", 7541976, (800, 800), 0.4),
     ("vap-auto-repairs-etobicoke-og.webp", 11139242, (1200, 630), 0.45),
 ]
+
+# Boxes (left, top, right, bottom) in output pixels to blur: other brands' logos.
+BLUR = {
+    "oil-change-etobicoke.webp": [(595, 440, 830, 680)],  # oil bottle label
+    "mechanic-under-car-etobicoke.webp": [(630, 650, 825, 705)],  # lift maker's label
+    "vap-auto-repairs-etobicoke-og.webp": [(880, 50, 1000, 190), (600, 340, 815, 395)],  # shirt logo, lift label
+}
 
 
 def fetch(photo_id):
@@ -55,6 +62,12 @@ def cover(img, size, focus_y):
 def main():
     for name, photo_id, size, focus_y in SLOTS:
         out = cover(fetch(photo_id), size, focus_y)
+        for box in BLUR.get(name, []):
+            # Feathered mask so the blur fades into the photo instead of showing a hard box.
+            mask = Image.new("L", out.size, 0)
+            mask.paste(255, box)
+            mask = mask.filter(ImageFilter.GaussianBlur(10))
+            out = Image.composite(out.filter(ImageFilter.GaussianBlur(14)), out, mask)
         # A fresh image carries no EXIF or other metadata.
         out.save(OUT / name, "WEBP", quality=80, method=6)
         print(f"{name}: Pexels {photo_id}, {size[0]}x{size[1]}")
