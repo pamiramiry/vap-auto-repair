@@ -10,8 +10,11 @@ Every photo is from Pexels, under the Pexels License: free for commercial and pe
 | vap-auto-repairs-etobicoke-og.webp | Social share | Same as FAQ tall (11139242) | Hasan Gulec | 1200x630 |
 | oil-change-etobicoke.webp | Services, tall | https://www.pexels.com/photo/pouring-oil-to-engine-13065690/ | Daniel Andraski | 900x1125 |
 | tire-change-etobicoke.webp | Services, second | https://www.pexels.com/photo/man-changing-a-car-tire-3806249/ | Andrea Piacquadio | 1200x800 |
+| hero-shop.webp | Hero, beside the order (desktop), band above it (phones, tablets) | https://www.pexels.com/photo/man-standing-under-a-car-8985723/ | Artem Podrez | 1000x1400 |
 | mechanic-with-customer-etobicoke.webp | FAQ, square | https://www.pexels.com/photo/an-auto-mechanic-holding-a-new-cabin-filter-7541976/ | see source page | 800x800 |
 
 After running the script, open each file. If a logo, plate or sign is visible, blur it or change the crop focus in the script, and note the edit here.
 
-Edits (2026-10-20, all downloaded that day): blurred the Shell/VW/MAXI label on the oil bottle, the Falco label on the lift (FAQ tall and social share), and the AC Car Treatment logo on the shirt (social share). The boxes live in the BLUR table in the script. Before launch, add the download date to each row.
+Edits (2026-10-20, all downloaded that day): blurred the Shell/VW/MAXI label on the oil bottle, the Falco label on the lift (FAQ tall and social share), and the AC Car Treatment logo on the shirt (social share). The boxes live in the BLUR table in the script.
+
+hero-shop.webp (2026-10-21, downloaded that day): blurred the Subaru lettering and model badge on the tailgate. Stand-in only: swap for a real photo of VAP's bays or staff. Before launch, add the download date to each row.

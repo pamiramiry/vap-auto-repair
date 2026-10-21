@@ -29,6 +29,7 @@ SLOTS = [
     ("mechanic-under-car-etobicoke.webp", 11139242, (900, 1200), 0.5),
     ("mechanic-with-customer-etobicoke.webp", 7541976, (800, 800), 0.4),
     ("vap-auto-repairs-etobicoke-og.webp", 11139242, (1200, 630), 0.45),
+    ("hero-shop.webp", 8985723, (1000, 1400), 0.3),
 ]
 
 # Boxes (left, top, right, bottom) in output pixels to blur: other brands' logos.
@@ -36,6 +37,7 @@ BLUR = {
     "oil-change-etobicoke.webp": [(595, 440, 830, 680)],  # oil bottle label
     "mechanic-under-car-etobicoke.webp": [(630, 650, 825, 705)],  # lift maker's label
     "vap-auto-repairs-etobicoke-og.webp": [(880, 50, 1000, 190), (600, 340, 815, 395)],  # shirt logo, lift label
+    "hero-shop.webp": [(430, 300, 690, 365), (355, 375, 475, 420)],  # car maker's badges
 }
 
 

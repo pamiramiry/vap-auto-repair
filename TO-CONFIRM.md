@@ -28,6 +28,6 @@ Everything below is on the page already, written from the Google listing and rev
 - Photos: run tools/fetch-images.py (needs access to images.pexels.com), then check every crop.
 
 ## Real photos to get from the shop (replace stock first)
-1. Hero: the shop floor or a bay with a car on the hoist (portrait, 4:5).
+1. Hero: the shop floor or a bay with a car on the hoist (portrait, 5:7 or taller). Save over images/hero-shop.webp; a Pexels stand-in is there now.
 2. Mechanic with customer: the owner talking someone through a repair (4:3).
 3. Outside the unit at Shops at Albion, for a future About block.

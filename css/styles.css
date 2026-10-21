@@ -216,6 +216,24 @@ strong { font-weight: 600; }
   .order__title { font-size: 11vw; margin-top: 8px; }
 }
 
+/* shop photo: a band above the order on phones and tablets, beside it on desktop */
+.hero__pic { margin: 0; }
+@media (max-width: 1023px) {
+  .hero { --pic-h: 168px; padding-top: calc(var(--pic-h) + 30px); } /* the gap keeps the scallops on the ground colour */
+  .hero .hero__pic { position: absolute; top: 0; left: 0; right: 0; height: var(--pic-h); }
+  .hero__pic img { object-position: 50% 52%; }
+}
+@media (min-width: 640px) and (max-width: 1023px) { .hero { --pic-h: 240px; } }
+@media (min-width: 1024px) {
+  .hero { display: grid; grid-template-columns: 11fr 9fr; grid-template-rows: minmax(0, 1fr); }
+  .order { max-width: none; margin: 0; }
+  .order::after { display: none; }
+  .order__title { font-size: min(var(--step-display), 5.2vw); }
+  .hero .hero__pic { height: calc(100% + 120px); }
+  /* the order's right scallop moves to the photo's outer corner */
+  .hero__pic::after { content: ""; position: absolute; z-index: 2; top: -18px; right: -18px; width: 36px; height: 36px; border-radius: 50%; background: var(--bg); }
+}
+
 /* ---------- section frame ---------- */
 .intro, .services, .how, .reviews, .about, .faq, .reply { padding: var(--gap) var(--m) 0; }
 .page, .reply { position: relative; z-index: 1; background: var(--bg); }
